@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2020-06-29 23:12:38 -0500'>2020-06-29 23:12:38 -0500</time>
+          Updated <time class='js-timeago' datetime='2020-07-02 16:22:43 -0500'>2020-07-02 16:22:43 -0500</time>
         
       </span>
     </div>
@@ -62,21 +62,21 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-1">
-            <div class="rating a big">
-              A
+            <div class="rating b big">
+              B
             </div>
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">19</span><small> lines of codes</small></div>
-              <div><span class="metric">3</span><small> methods</small></div>
+              <div><span class="metric">77</span><small> lines of codes</small></div>
+              <div><span class="metric">10</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">2.6</span><small> complexity/method</small></div>
-              <div><span class="metric">1</span><small> churn</small></div>
+              <div><span class="metric">6.5</span><small> complexity/method</small></div>
+              <div><span class="metric">2</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">7.77</span><small> complexity</small></div>
+              <div><span class="metric">65.4</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -88,8 +88,8 @@
             <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
             <li class="active">
               <a href="#" id="toggle-smells" class="toggle-button button">
-                2
-                smells
+                0
+                smell
               </a>
             </li>
           </ul>
@@ -99,6 +99,7 @@
 
     <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
 
+load &#39;frame.rb&#39;
 # Esta clase es para definir el juego
 class Bowling
   def initialize
@@ -107,15 +108,72 @@ class Bowling
     @current_frame = Frame.new
   end
 
-  def roll(pinsdown)end<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Unused-Parameters.md" target="_blank"><b>UnusedParameters</b></a>        </span>      </div>      <span>Bowling#roll has unused parameter 'pinsdown'</span>          </div>  </li></ol>
+  def roll(pins_down)
+    @current_frame &lt;&lt; pins_down
+
+    (unless (@current_frame.done? &amp;&amp; frames_length &lt;= 9) || (frames_length == 10 &amp;&amp;
+      (frames_last.spare? || frames_last.strike?))
+       return end)
+    @frames &lt;&lt; @current_frame
+    @current_frame = Frame.new
+  end
+
+  def score
+    @total_pins = frame_points
+    puts @total_pins
+  end
+
+  def frame_points
+    @frames.each.with_index do |actual_frame, index|
+      @total_pins += actual_frame.score
+      frame_bonus(actual_frame, index)
+      puts @total_pins
+    end
+    @total_pins
+  end
+
+  def strike_frame(index)
+    next_position = frames_next_position(index + 1)
+    @total_pins += if next_position.strike?
+                     @frames[index + 2].first
+                   else
+                     next_position.last
+                   end
+
+    @total_pins += next_position.first
+  end
+
+  def last_frame?
+    @frames.count &gt;= 10
+  end
+
+  private
+
+  def frames_length
+    @frames.length
+  end
+
+  def frame_bonus(actual_frame, index)
+    if actual_frame.strike?
+      strike_frame(index)
+    elsif actual_frame.spare? &amp;&amp; index != 9
+      @total_pins += @frames[index + 1].first
+    end
+  end
+
+  def frames_last
+    @frames.last
+  end
+
+  def frames_next_position(next_position)
+    @frames[next_position]
+  end
 end
 
-# Esta clase es para guardar la cantidad de pinos derribados por tiro
-class Frame &lt; Array<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="https://github.com/troessner/reek/blob/master/docs/Subclassed-From-Core-Class.md" target="_blank"><b>SubclassedFromCoreClass</b></a>        </span>      </div>      <span>Frame inherits from core class 'Array'</span>          </div>  </li></ol>
-  def strike?
-		length == 1 &amp;&amp; spare?
-	end
-end
+bowling = Bowling.new
+rolls = [8, 1, 10, 10, 10, 1, 6, 4, 5, 5, 10, 0, 0, 0, 0, 0, 10]
+rolls.each { |pins_down| bowling.roll(pins_down) }
+puts bowling.score
 </code>
   </div>
 </div>

@@ -47,7 +47,7 @@
     <div class="file-time">
       <span class="committed-at">
         
-          Updated <time class='js-timeago' datetime='2020-06-29 23:25:25 -0500'>2020-06-29 23:25:25 -0500</time>
+          Updated <time class='js-timeago' datetime='2020-07-02 16:22:43 -0500'>2020-07-02 16:22:43 -0500</time>
         
       </span>
     </div>
@@ -68,15 +68,15 @@
           </div>
           <div class="code-statistics col-md-11">
             <div class="col-md-3">
-              <div><span class="metric">13</span><small> lines of codes</small></div>
+              <div><span class="metric">31</span><small> lines of codes</small></div>
               <div><span class="metric">0</span><small> methods</small></div>
             </div>
             <div class="col-md-3">
               <div><span class="metric">N/A</span><small> complexity/method</small></div>
-              <div><span class="metric">3</span><small> churn</small></div>
+              <div><span class="metric">4</span><small> churn</small></div>
             </div>
             <div class="col-md-3">
-              <div><span class="metric">11.09</span><small> complexity</small></div>
+              <div><span class="metric">48.65</span><small> complexity</small></div>
               <div><span class="metric">0</span><small> duplications</small></div>
             </div>
           </div>
@@ -102,11 +102,29 @@
 require &#39;./bowling_game&#39;
 
 RSpec.describe &#39;Bowling&#39; do
+  let(:bowling) { Bowling.new }
   describe &#39;roll&#39; do
     it &#39;it will let me know the pins down&#39; do
-      bowling = Bowling.new
-      bowling.roll
-      expect(bowling.roll).to be_kind_of(Integer)
+      expect(bowling.roll(10)).to be_kind_of(Array)
+    end
+  end
+
+  describe &#39;score&#39; do
+    it &#39;will give me the total amount of pins summed I have, counting bonus&#39; do
+      expect(bowling.score).to be_kind_of(Integer)
+    end
+  end
+
+  describe &#39;done?&#39; do
+    it &#39;Tells me if the turn is done&#39; do
+      frame = Frame.new
+      expect(frame.done?).to be(true).or be(false)
+    end
+  end
+
+  describe &#39;score&#39; do
+    it &#39;gives me the points per turn&#39; do
+      expect(bowling.score).to be_kind_of(Integer)
     end
   end
 end
