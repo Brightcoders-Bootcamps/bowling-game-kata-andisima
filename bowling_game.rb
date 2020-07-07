@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 load 'frame.rb'
 # This class will define the Game rules
 class Bowling
