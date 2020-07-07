@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 load 'frame.rb'
 # Esta clase es para definir el juego
 class Bowling
@@ -10,7 +9,7 @@ class Bowling
   end
 
   def roll(pins_down)
-    @current_frame << pins_down
+    @current_frame.turn << pins_down
 
     (unless (@current_frame.done? && frames_length <= 9) || (frames_length == 10 &&
       (frames_last.spare? || frames_last.strike?))
@@ -36,12 +35,12 @@ class Bowling
   def strike_frame(index)
     next_position = frames_next_position(index + 1)
     @total_pins += if next_position.strike?
-                     @frames[index + 2].first
+                     @frames[index + 2].turn.first
                    else
-                     next_position.last
+                     next_position.turn.last
                    end
 
-    @total_pins += next_position.first
+    @total_pins += next_position.turn.first
   end
 
   def last_frame?

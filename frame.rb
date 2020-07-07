@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 # Esta clase es para guardar los puntos de cada tiro
-class Frame < Array
+class Frame
+  attr_reader :turn
+  def initialize
+    @turn = []
+  end
 
   def strike?
-    length == 1 && spare?
+    turn.length == 1 && spare?
   end
 
   def spare?
@@ -12,11 +16,11 @@ class Frame < Array
   end
 
   def score
-    reduce(&:+)
+    turn.reduce(&:+)
     # este metodo te suma el contenido del array
   end
 
   def done?
-    length == 2 || strike? || spare?
+    turn.length == 2 || strike? || spare?
   end
 end
