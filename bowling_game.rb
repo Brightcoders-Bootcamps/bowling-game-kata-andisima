@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 load 'frame.rb'
-# Esta clase es para definir el juego
+# This class will define the Game rules
 class Bowling
   def initialize
     @total_pins = 0

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Esta clase es para guardar los puntos de cada tiro
+# This class is to save the score of each turn
 class Frame
   attr_reader :turn
   def initialize
@@ -17,7 +17,7 @@ class Frame
 
   def score
     turn.reduce(&:+)
-    # este metodo te suma el contenido del array
+    # This method gives you the total of the Array
   end
 
   def done?
