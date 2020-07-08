@@ -3,6 +3,8 @@
 # The Bowling Game Kata
 ![cover](img/cover.jpg)
 
+![RubyCritic](badges/rubycritic_badge_score.svg)
+
 ## Pre-requisitos
 
 Antes de iniciar asegurate de cumplir con los siguientes pre-requisitos:
