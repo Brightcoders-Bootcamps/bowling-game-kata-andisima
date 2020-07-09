@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-require 'rubycritic_small_badge'
-require 'rubycritic/rake_task'
-RubyCriticSmallBadge.configure do |config|
-  config.minimum_score = 95
-end
-RubyCritic::RakeTask.new do |task|
-  task.options = %(--custom-format RubyCriticSmallBadge::Report
---minimum-score #{RubyCriticSmallBadge.config.minimum_score})
-end
-
 load 'frame.rb'
 # This class will define the Game rules
 class Bowling
@@ -45,13 +35,14 @@ class Bowling
 
   def strike_frame(index)
     next_position = frames_next_position(index + 1)
+    next_turn = next_position.turn
     @total_pins += if next_position.strike?
                      @frames[index + 2].turn.first
                    else
-                     next_position.turn.last
+                     next_turn.last
                    end
 
-    @total_pins += next_position.turn.first
+    @total_pins += next_turn.first
   end
 
   def last_frame?
